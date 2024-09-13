@@ -1,22 +1,13 @@
-/* USER CODE BEGIN Header */
 /**
- ******************************************************************************
- * @file           : main.c
- * @brief          : 主程序文件
- ******************************************************************************
- * @attention
+ * @file send/main.c
+ * @author cl wang (wangcl929@hust.edu.cn)
+ * @brief
+ * @version 0.1
+ * @date 2024-09-13
  *
- * <h2><center>&copy; Copyright (c) 2022 CSTX.
- * 保留所有权利。</center></h2>
+ * @copyright Copyright (c) 2024
  *
- * 本软件组件由 ST 依据 BSD 3-Clause 许可协议授权，
- * 你只有在遵守许可协议的情况下才能使用该文件。
- * 你可以在以下地址获取许可协议副本：
- *                        opensource.org/licenses/BSD-3-Clause
- *
- ******************************************************************************
  */
-
 #include "main.h"
 #include "usart.h"
 #include "gpio.h"
