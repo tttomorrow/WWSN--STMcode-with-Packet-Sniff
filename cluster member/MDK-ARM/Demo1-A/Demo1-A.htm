@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Demo1-A\Demo1-A.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Demo1-A\Demo1-A.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Fri Sep 13 16:45:06 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Mon Sep 23 11:36:40 2024
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -668,6 +668,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
 </UL>
 
 <P><STRONG><a name="[41]"></a>OLED_WR_Byte</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, oled.o(i.OLED_WR_Byte))
@@ -843,8 +844,9 @@ Global Symbols
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 </UL>
 
-<P><STRONG><a name="[8d]"></a>findRoute</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, main.o(i.findRoute))
-<BR><BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<P><STRONG><a name="[8d]"></a>findRoute</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, main.o(i.findRoute))
+<BR><BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
+<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteReply
@@ -990,7 +992,7 @@ Global Symbols
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[99]"></a>sniff</STRONG> (Thumb, 270 bytes, Stack size 0 bytes, main.o(i.sniff))
+<P><STRONG><a name="[99]"></a>sniff</STRONG> (Thumb, 216 bytes, Stack size 0 bytes, main.o(i.sniff))
 <BR><BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findSniffID
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;realloc
