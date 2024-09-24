@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 2; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 3; // 节点ID///////////////////////////////////////////////
 
 // 数据包结构体
 typedef struct
@@ -206,17 +206,18 @@ void configureModule()
  * @brief Get the Envir RSSI object
  *
  */
-void getEnvirRSSI()
+int getEnvirRSSI()
 {
+    uint8_t envirRssi;
     // 检查M1是否被成功置为0,M0是否被成功置为1,WOR模式
     if (HAL_GPIO_ReadPin(M0_GPIO_Port, M0_Pin) == 0 && HAL_GPIO_ReadPin(M1_GPIO_Port, M1_Pin) == 0)
     {
         printf("\r\n M1 = 0; M0 = 0 \r\n");
 
         unsigned char cscxRSSIreq2[6] = {0xC0, 0xC1, 0xC2, 0xC3, 0x00, 0x01};
+        unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
         CS_Reg_Send_Data(cscxRSSIreq2, sizeof(cscxRSSIreq2)); // 发送 cscxRSSIreq2 到寄存器
         HAL_Delay(500);                                       // 延迟  毫秒
-        unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
         cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);         // 接收寄存器的数据
         printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
         for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
@@ -225,9 +226,11 @@ void getEnvirRSSI()
             printf(" ");
         }
         printf("\n");
-        printf("\r\ncurrentChannelNoise: -%ddBm\r\n", 256 - cscxRSSI[3]);
+        envirRssi = cscxRSSI[3];
+        printf("\r\ncurrentChannelNoise: -%ddBm\r\n", 256 - envirRssi);
         printf("\r\ncurrentChannelSNR: %ddB\r\n", RSSI - cscxRSSI[3]);
     }
+    return envirRssi;
 }
 
 // 添加路由条目
@@ -501,7 +504,7 @@ void processDataPacket(DataPacket *packet)
         // 自己不是数据包的终点
         // 发送ack数据包
         sendAckPacket(packet->forwardID, packet->sourceMacH, packet->sourceMacL);
-        getEnvirRSSI();
+        uint8_t envirRSSI = getEnvirRSSI();
         // 查询路由表，查找目标地址的路由
         int routeIndex = findRoute(targetID);
         printf("\r\nrouteIndex: %d\r\n", routeIndex);
@@ -516,6 +519,17 @@ void processDataPacket(DataPacket *packet)
 
             packet->forwardID = nodeID;
             packet->forwardtoID = routingTable[routeIndex].nextHopID;
+            // 从数据包第29字节开始向后遍历，直到找到第一个为0的三字节 记录数据包路径、信号强度和环境噪声
+            for (int i = 28; i >= 0; i = i+3)
+            {
+                if (packet->data[i] == 0)
+                {
+                    packet->data[i] = nodeID;
+                    packet->data[i+1] = RSSI;
+                    packet->data[i+2] = envirRSSI;
+                    break;
+                }
+            }
             for (int i = 0; i < sizeof(packet->data); i++)
             {
                 if (packet->data[i] == 0x00)
@@ -782,6 +796,7 @@ int main(void)
             {
                 printf("\r\nhandleReceivedPackethandleReceivedPacket\r\n");
                 handleReceivedPacket(&receivedPacket);
+                sniff(&receivedPacket);
             }
             else
             {

@@ -141,20 +141,18 @@ void getEnvirRSSI()
     // 检查M1是否被成功置为0,M0是否被成功置为1,WOR模式
     if (HAL_GPIO_ReadPin(M0_GPIO_Port, M0_Pin) == 0 && HAL_GPIO_ReadPin(M1_GPIO_Port, M1_Pin) == 0)
     {
-        printf("\r\n M1 = 0; M0 = 0 \r\n");
-
         unsigned char cscxRSSIreq2[6] = {0xC0, 0xC1, 0xC2, 0xC3, 0x00, 0x01};
         CS_Reg_Send_Data(cscxRSSIreq2, sizeof(cscxRSSIreq2)); // 发送 cscxRSSIreq2 到寄存器
         HAL_Delay(500);                                       // 延迟  毫秒
         unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
         cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);         // 接收寄存器的数据
-        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
-        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
-        {
-            printf("%02X", cscxRSSI[i]);
-            printf(" ");
-        }
-        printf("\n");
+//        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
+//        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
+//        {
+//            printf("%02X", cscxRSSI[i]);
+//            printf(" ");
+//        }
+//        printf("\n");
         printf("\r\ncurrentChannelNoise: -%ddBm\r\n", 256 - cscxRSSI[3]);
         printf("\r\ncurrentChannelSNR: %ddB\r\n", RSSI - cscxRSSI[3]);
     }
@@ -298,10 +296,10 @@ void sendRouteReply(uint8_t destID, uint8_t forwardID)
 
     memcpy(packetBUF, &packet, sizeof(DataPacket));
     USART2_printf("%s\n", packetBUF);
-    for (int i = 0; i < sizeof(packet); i++)
-    {
-        printf("%02x", packetBUF[i]);
-    }
+//    for (int i = 0; i < sizeof(packet); i++)
+//    {
+//        printf("%02x", packetBUF[i]);
+//    }
     printf("Route Reply sent to %d from node%d\n", destID, nodeID);
 }
 
@@ -434,7 +432,7 @@ void processDataPacket(DataPacket *packet)
         sprintf((char *)disOLED, "T:%d.%dC H:%d.%dR", packet->data[0], packet->data[1], packet->data[2], packet->data[3]);
         OLED_ShowString(0, 6, disOLED);
         // 发送ack数据包
-        sendAckPacket(packet->sourceID, packet->sourceMacH, packet->sourceMacL);
+        sendAckPacket(packet->forwardID, packet->sourceMacH, packet->sourceMacL);
         for (int i = 0; i < 64; i++)
         {
             printf("%02X ", USART2_RX_BUF[i]);
@@ -662,7 +660,7 @@ int main(void)
                     if (USART2_RX_BUF[i] != 0)
                     {
                         RSSI = USART2_RX_BUF[i];
-//                        printf("receivedPacketWithRSSI :-%ddBm\n", 256 - RSSI);
+                        printf("receivedPacketWithRSSI: -%ddBm\n", 256 - RSSI);
                         break;
                     }
                 }
@@ -670,7 +668,6 @@ int main(void)
                 handleReceivedPacket(&receivedPacket);
             }
 
-            printf("\n\n\n");
             memset(USART2_RX_BUF, 0, USART_REC_LEN); // 清空接收缓冲区
             USART2_RX_STA = 0;                       // 重置接收状态
         }
