@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 3; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 2; // 节点ID///////////////////////////////////////////////
 
 // 数据包结构体
 typedef struct
@@ -304,7 +304,7 @@ int findRoute(uint8_t destID)
 void sendRouteRequest(uint8_t destID)
 {
     DataPacket packet;
-    packet.ID = ++packetID;
+    packet.ID = packetID++;
     packet.destMacH = 0xFF;
     packet.destMacL = 0xFF;
     packet.destchanID = channelID;
@@ -336,7 +336,7 @@ void sendRouteRequest(uint8_t destID)
 void sendRouteReply(uint8_t destID, uint8_t forwardID)
 {
     DataPacket packet;
-    packet.ID = ++packetID;
+    packet.ID = packetID++;
     packet.destMacH = 0xFF;
     packet.destMacL = 0xFF;
     packet.destchanID = channelID;
@@ -367,7 +367,7 @@ void sendRouteReply(uint8_t destID, uint8_t forwardID)
 void sendAckPacket(uint8_t destID, uint8_t macH, uint8_t macL)
 {
     DataPacket packet;
-    packet.ID = ++packetID;
+    packet.ID = packetID++;
     packet.destMacH = macH;
     packet.destMacL = macL;
     packet.destchanID = channelID;
@@ -661,7 +661,7 @@ int main(void)
     {
 
         currentMillis = HAL_GetTick();
-        if (currentMillis - previousMillisA0 >= 20000 || previousMillisA0 == 0) // 当前时间刻减去前次执行的时间刻
+        if (currentMillis - previousMillisA0 >= 40000 || previousMillisA0 == 0) // 当前时间刻减去前次执行的时间刻
         {
             previousMillisA0 = currentMillis; // 更新执行时间刻
 
@@ -697,7 +697,7 @@ int main(void)
                     datapacket.forwardID = nodeID;
                     datapacket.forwardtoID = routingTable[routeIndex].nextHopID;
                     datapacket.destID = targetID;
-                    datapacket.ID = ++packetID;
+                    datapacket.ID = packetID++;
                     datapacket.protocol = DATA_PACKET;
 
                     memcpy(&datapacket.data[4], &sniffTable[sniffTableSendID % sniffTableCount], sizeof(SnifferTable));
@@ -742,7 +742,7 @@ int main(void)
         if (sendRoutRequest == 1 && getRoutReplay == 0)
         {
             currentMillis = HAL_GetTick(); // 获取当前系统时间
-            if (currentMillis - previousMillisA1 > 10000 && getRoutReplay == 0)
+            if (currentMillis - previousMillisA1 > 20000 && getRoutReplay == 0)
             {
                 sendRouteRequest(targetID);
                 previousMillisA1 = HAL_GetTick();
