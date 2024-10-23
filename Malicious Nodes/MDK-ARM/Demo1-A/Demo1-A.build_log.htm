@@ -1,0 +1,153 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.15
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 123 123, 123, LIC=NQQMA-170VD-II95V-P614H-ZAPNL-7KDCT
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.15.0
+Toolchain Path:  D:\MDK5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 update 2 (build 169)
+Assembler:       Armasm.exe V5.05 update 2 (build 169)
+Linker/Locator:  ArmLink.exe V5.05 update 2 (build 169)
+Library Manager: ArmAr.exe V5.05 update 2 (build 169)
+Hex Converter:   FromElf.exe V5.05 update 2 (build 169)
+CPU DLL:         SARMCM3.DLL V5.15.0
+Dialog DLL:      DARMCM1.DLL V1.12.0.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.15.0_KEIL
+Dialog DLL:      TARMCM1.DLL V1.9.0.0
+ 
+<h2>Project:</h2>
+D:\zhuomian\file\STMcode\wwsn20240912-完善监听算法，并将监听数据一并发送-github\Malicious Nodes\MDK-ARM\Demo1-A.uvprojx
+Project File Date:  07/23/2024
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.05 update 2 (build 169)', folder: 'D:\MDK5\ARM\ARMCC\Bin'
+Rebuild target 'Demo1-A'
+assembling startup_stm32g031xx.s...
+compiling oled.c...
+compiling dht11.c...
+compiling main.c...
+../Core/Src/main.c(547): warning:  #174-D: expression has no effect
+              else (maliciousType == 2 | maliciousType == 3){
+../Core/Src/main.c(547): error:  #65: expected a ";"
+              else (maliciousType == 2 | maliciousType == 3){
+../Core/Src/main.c(595): warning:  #12-D: parsing restarts here after previous syntax error
+                          }
+../Core/Src/main.c(601): error:  #127: expected a statement
+                      else{ // 没?业?路?桑?链路????
+../Core/Src/main.c(607): warning:  #12-D: parsing restarts here after previous syntax error
+                  }
+../Core/Src/main.c(608): error:  #169: expected a declaration
+              }
+../Core/Src/main.c(631): warning:  #12-D: parsing restarts here after previous syntax error
+                          packet->data[i+1] = RSSI;
+../Core/Src/main.c(632): error:  #77-D: this declaration has no storage class or type specifier
+                          packet->data[i+2] = envirRSSI;
+../Core/Src/main.c(632): error:  #65: expected a ";"
+                          packet->data[i+2] = envirRSSI;
+../Core/Src/main.c(633): error:  #169: expected a declaration
+                          break;
+../Core/Src/main.c(634): error:  #169: expected a declaration
+                      }
+../Core/Src/main.c(643): warning:  #12-D: parsing restarts here after previous syntax error
+                  memset(packetBUF, 0, sizeof(packet));
+../Core/Src/main.c(644): error:  #79: expected a type specifier
+                  printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
+../Core/Src/main.c(644): error:  #757: variable "packet" is not a type name
+                  printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
+../Core/Src/main.c(644): error:  #18: expected a ")"
+                  printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
+../Core/Src/main.c(644): error:  #260-D: explicit type is missing ("int" assumed)
+                  printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
+../Core/Src/main.c(644): error:  #147-D: declaration is incompatible with "int printf(const char *restrict, ...)" (declared at line 402 of "D:\MDK5\ARM\ARMCC\Bin\..\include\stdio.h")
+                  printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
+../Core/Src/main.c(645): error:  #40: expected an identifier
+                  memcpy(packetBUF, packet, sizeof(DataPacket));
+../Core/Src/main.c(645): error:  #260-D: explicit type is missing ("int" assumed)
+                  memcpy(packetBUF, packet, sizeof(DataPacket));
+../Core/Src/main.c(645): error:  #92: identifier-list parameters may only be used in a function definition
+                  memcpy(packetBUF, packet, sizeof(DataPacket));
+../Core/Src/main.c(645): error:  #147: declaration is incompatible with "void *memcpy(void *restrict, const void *restrict, size_t)" (declared at line 58 of "D:\MDK5\ARM\ARMCC\Bin\..\include\string.h")
+                  memcpy(packetBUF, packet, sizeof(DataPacket));
+../Core/Src/main.c(646): error:  #79: expected a type specifier
+                  USART2_printf("%s\n", packetBUF);
+../Core/Src/main.c(646): error:  #757: variable "packetBUF" is not a type name
+                  USART2_printf("%s\n", packetBUF);
+../Core/Src/main.c(646): error:  #260-D: explicit type is missing ("int" assumed)
+                  USART2_printf("%s\n", packetBUF);
+../Core/Src/main.c(646): error:  #147: declaration is incompatible with "void USART2_printf(char *, ...)" (declared at line 56 of "../Core/Inc/usart.h")
+                  USART2_printf("%s\n", packetBUF);
+../Core/Src/main.c(647): error:  #169: expected a declaration
+              }
+../Core/Src/main.c(702): warning:  #12-D: parsing restarts here after previous syntax error
+      CS_OLED_Init();                                      // ??始化 OLED ??示??
+../Core/Src/main.c(703): warning:  #1295-D: Deprecated declaration OLED_Clear - give arg types
+      OLED_Clear();                                        // ?宄? OLED ??示??????
+../Core/Src/main.c(703): error:  #260-D: explicit type is missing ("int" assumed)
+      OLED_Clear();                                        // ?宄? OLED ??示??????
+../Core/Src/main.c(703): error:  #147: declaration is incompatible with "void OLED_Clear(void)" (declared at line 65 of "../Core/Inc/oled.h")
+      OLED_Clear();                                        // ?宄? OLED ??示??????
+../Core/Src/main.c(704): error:  #79: expected a type specifier
+      OLED_ShowString(16, 0, "WWSN NODE");                 // ?? OLED ??示??????示?址? "WWSN NODE"
+../Core/Src/main.c(704): error:  #79: expected a type specifier
+      OLED_ShowString(16, 0, "WWSN NODE");                 // ?? OLED ??示??????示?址? "WWSN NODE"
+../Core/Src/main.c(704): error:  #79: expected a type specifier
+      OLED_ShowString(16, 0, "WWSN NODE");                 // ?? OLED ??示??????示?址? "WWSN NODE"
+../Core/Src/main.c(704): error:  #260-D: explicit type is missing ("int" assumed)
+      OLED_ShowString(16, 0, "WWSN NODE");                 // ?? OLED ??示??????示?址? "WWSN NODE"
+../Core/Src/main.c(704): error:  #147: declaration is incompatible with "void OLED_ShowString(unsigned char, unsigned char, unsigned char *)" (declared at line 70 of "../Core/Inc/oled.h")
+      OLED_ShowString(16, 0, "WWSN NODE");                 // ?? OLED ??示??????示?址? "WWSN NODE"
+../Core/Src/main.c(705): error:  #79: expected a type specifier
+      printf("\r\nWWSN Node %d\r\n", nodeID);              // ??印nodeID
+../Core/Src/main.c(705): error:  #757: variable "nodeID" is not a type name
+      printf("\r\nWWSN Node %d\r\n", nodeID);              // ??印nodeID
+../Core/Src/main.c: 7 warnings, 30 errors
+compiling gpio.c...
+compiling usart.c...
+compiling stm32g0xx_it.c...
+compiling stm32g0xx_hal_msp.c...
+compiling stm32g0xx_hal_tim.c...
+compiling stm32g0xx_hal_tim_ex.c...
+compiling stm32g0xx_hal_uart.c...
+compiling stm32g0xx_hal_uart_ex.c...
+compiling stm32g0xx_hal_rcc.c...
+compiling stm32g0xx_hal_rcc_ex.c...
+compiling stm32g0xx_ll_rcc.c...
+compiling stm32g0xx_hal_flash.c...
+compiling stm32g0xx_hal_flash_ex.c...
+compiling stm32g0xx_hal_gpio.c...
+compiling stm32g0xx_hal_dma.c...
+compiling stm32g0xx_hal_dma_ex.c...
+compiling stm32g0xx_ll_dma.c...
+compiling stm32g0xx_hal_pwr.c...
+compiling stm32g0xx_hal_pwr_ex.c...
+compiling stm32g0xx_hal_cortex.c...
+compiling stm32g0xx_hal.c...
+compiling stm32g0xx_hal_exti.c...
+compiling system_stm32g0xx.c...
+"Demo1-A\Demo1-A.axf" - 30 Error(s), 7 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.3.0.pack
+                ARM::CMSIS:CORE:4.1.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.1.0
+
+<h2>Collection of Component include folders:</h2>
+  D:\zhuomian\file\STMcode\wwsn20240912-完善监听算法，并将监听数据一并发送-github\Malicious Nodes\MDK-ARM\RTE
+  D:\MDK5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include
+  D:\MDK5\ARM\PACK\Keil\STM32G0xx_DFP\1.2.0\Drivers\CMSIS\Device\ST\STM32G0xx\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.1.0
+Target not created.
+</pre>
+</body>
+</html>

@@ -96,13 +96,15 @@ SnifferTable *sniffTable = NULL;
 int sniffTableSize = SNIFF_TABLE_SIZE_INITIAL; // 监听表大小
 int sniffTableCount = 1;
 unsigned char packetBUF[sizeof(DataPacket)];
-uint32_t previousMillisA0 = 0; // 计时发送温度数据
-uint32_t previousMillisA1 = 0; // 路由请求发送时间
+uint32_t previousMillisA0 = 0; // 上一次发送温度数据的时间
+uint32_t previousRouteReq = 0; // 上一次路由请求发送时间
+uint8_t previousNotGetACK = 0; // 距离上一次没收到ACK的过了多少运行轮次
 uint8_t sendRoutRequest = 0;   // 路由请求标志
 uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
+uint32_t roundTime = 40000; // 发送温度数据间隔时间
 
 // 通过配置寄存器 设置lora模块信道与地址
 // 初始mac地址为广播地址0x10 0x02，所有节点统一采用信道0x09；具体配置查询手册
@@ -246,7 +248,7 @@ void addRoutingEntry(uint8_t destID, uint8_t nextHopID, uint8_t macHigh, uint8_t
 {
     if (routingTableCount >= routingTableSize)
     {
-        routingTableSize *= 2;
+        routingTableSize += 2;
         routingTable = (RoutingEntry *)realloc(routingTable, routingTableSize * sizeof(RoutingEntry));
     }
     routingTable[routingTableCount].destID = destID;
@@ -254,6 +256,21 @@ void addRoutingEntry(uint8_t destID, uint8_t nextHopID, uint8_t macHigh, uint8_t
     routingTable[routingTableCount].macHigh = macHigh;
     routingTable[routingTableCount].macLow = macLow;
     routingTableCount++;
+}
+
+
+// 删除路由条目
+void deleteRoutingEntry(uint8_t routeIndex)
+{
+    for (int i = 0; i < routingTableCount; i++)
+    {
+        // 找到并删除该条目
+        for (int j = i; j < routeIndex - 1; j++)
+        {
+            routingTable[routeIndex] = routingTable[routeIndex + 1]; // 向前移动条目
+        }
+        routingTableCount--; // 更新条目数
+    }
 }
 
 // 打印路由表
@@ -321,7 +338,7 @@ void sendRouteRequest(uint8_t destID)
     }
     memset(packetBUF, 0, sizeof(packet));
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s\r\n", packetBUF);
+    USART2_printf("%s\n", packetBUF);
     printf("\r\nRoute Request sent to find node %d\r\n", destID);
 }
 
@@ -353,7 +370,7 @@ void sendRouteReply(uint8_t destID, uint8_t forwardID)
     }
     memset(packetBUF, 0, sizeof(packet));
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s\r\n", packetBUF);
+    USART2_printf("%s\n", packetBUF);
     printf("\r\nRoute Reply sent to %d from node %d\r\n", destID, nodeID);
 }
 
@@ -384,7 +401,7 @@ void sendAckPacket(uint8_t destID, uint8_t macH, uint8_t macL)
     }
     memset(packetBUF, 0, sizeof(packet));
     memcpy(packetBUF, &packet, sizeof(packet));
-    USART2_printf("%s\r\n", packetBUF);
+    USART2_printf("%s\n", packetBUF);
     printf("\r\nAcknowledgement sent to %d\r\n", destID);
 }
 
@@ -440,11 +457,12 @@ void processRouteRequest(DataPacket *packet)
         if (sendRoutRequest == 1)
         {
             // 如果之前发送过路由查询报文
+            
             return;
         }
         printf("\r\nNo route found for destination node %d\r\n", packet->destID);
         sendRouteRequest(packet->destID);
-        previousMillisA1 = HAL_GetTick();
+        previousRouteReq = HAL_GetTick();
         sendRoutRequest = 1;
     }
 }
@@ -540,9 +558,14 @@ void processDataPacket(DataPacket *packet)
             memset(packetBUF, 0, sizeof(packet));
             printf("\r\nforward datapacket from node %d to node %d\r\n", packet->sourceID, packet->forwardtoID);
             memcpy(packetBUF, packet, sizeof(DataPacket));
-            USART2_printf("%s\r\n", packetBUF);
+            USART2_printf("%s\n", packetBUF);
         }
-        // 如果没有到终点的路由（暂时没写，只有链接断了才能不可达终点；后续添加路由查询与路由失败报文）
+        else{ // 没找到路由，链路断了
+            sendRouteRequest(targetID);
+            previousRouteReq = HAL_GetTick();
+            sendRoutRequest = 1;
+            getRoutReplay = 0;
+        }
     }
 }
 
@@ -554,6 +577,7 @@ void processDataPacket(DataPacket *packet)
 void processAckPacket(DataPacket *packet)
 {
     printf("\r\nReceived Acknowledgement from %d\r\n", packet->sourceID);
+    previousNotGetACK = 0;
     packet->destMacH = packet->sourceMacH;
     packet->destMacL = packet->sourceMacL;
     packet->sourceMacH = MacH;
@@ -661,7 +685,7 @@ int main(void)
     {
 
         currentMillis = HAL_GetTick();
-        if (currentMillis - previousMillisA0 >= 40000 || previousMillisA0 == 0) // 当前时间刻减去前次执行的时间刻
+        if (currentMillis - previousMillisA0 >= roundTime || previousMillisA0 == 0) // 当前时间刻减去前次执行的时间刻
         {
             previousMillisA0 = currentMillis; // 更新执行时间刻
 
@@ -726,15 +750,20 @@ int main(void)
                     memcpy(packetBUF, &datapacket, sizeof(datapacket));
                     printf("Send packet to %02X\r\n", datapacket.forwardtoID);
 
-                    USART2_printf("%s\r\n", packetBUF);
+                    USART2_printf("%s\n", packetBUF);
+                    previousNotGetACK = previousNotGetACK + 1;
                 }
                 else
                 {
                     printf("\r\nNo route found for destination node %d\r\n", targetID);
                     sendRouteRequest(targetID);
-                    previousMillisA1 = HAL_GetTick();
+                    previousRouteReq = HAL_GetTick();
                     sendRoutRequest = 1;
                     getRoutReplay = 0;
+                }
+                
+                if (previousNotGetACK == 5){
+                    deleteRoutingEntry(routeIndex);
                 }
             }
         }
@@ -742,10 +771,10 @@ int main(void)
         if (sendRoutRequest == 1 && getRoutReplay == 0)
         {
             currentMillis = HAL_GetTick(); // 获取当前系统时间
-            if (currentMillis - previousMillisA1 > 20000 && getRoutReplay == 0)
+            if (currentMillis - previousRouteReq > (roundTime / 2) && getRoutReplay == 0)
             {
                 sendRouteRequest(targetID);
-                previousMillisA1 = HAL_GetTick();
+                previousRouteReq = HAL_GetTick();
             }
         }
 
@@ -812,7 +841,7 @@ int main(void)
         if (USART_RX_STA == REC_OK)
         {
             printf("\r\nReceive Date from PC and Send to Destination\r\n");
-            USART2_printf("%s\r\n", USART_RX_BUF); // 通过lora发送出去
+            USART2_printf("%s\n", USART_RX_BUF); // 通过lora发送出去
             memset(USART_RX_BUF, 0, USART_REC_LEN);
             USART_RX_STA = 0;
         }

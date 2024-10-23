@@ -57,10 +57,10 @@
 // 数据包结构体
 typedef struct
 {
-    uint8_t destMacH; // 数据包第三字节
+    uint8_t destMacH; // 下一跳物理地址
     uint8_t destMacL;
     uint8_t destchanID; // 源节点ID
-    uint8_t sourceMacH; // 数据包第三字节
+    uint8_t sourceMacH; // 源物理地址
     uint8_t sourceMacL;
     uint8_t sourceID;    // 源节点ID
     uint8_t forwardID;   // 转发节点ID
@@ -263,7 +263,7 @@ void sendRouteRequest(uint8_t destID)
     strcpy(packet.data, "RouteReq");
 
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s\n", packetBUF);
+    USART2_printf("%s", packetBUF);
     printf("Route Request sent to find node%d\n", destID);
 }
 
@@ -295,7 +295,7 @@ void sendRouteReply(uint8_t destID, uint8_t forwardID)
     memset(packetBUF, 0, sizeof(packet));
 
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s\n", packetBUF);
+    USART2_printf("%s", packetBUF);
 //    for (int i = 0; i < sizeof(packet); i++)
 //    {
 //        printf("%02x", packetBUF[i]);
@@ -330,7 +330,7 @@ void sendAckPacket(uint8_t destID, uint8_t macH, uint8_t macL)
     }
     memset(packetBUF, 0, sizeof(packet));
     memcpy(packetBUF, &packet, sizeof(packet));
-    USART2_printf("%s\n", packetBUF);
+    USART2_printf("%s", packetBUF);
     printf("Acknowledgement sent to %d\n", destID);
 }
 
@@ -449,19 +449,19 @@ void processDataPacket(DataPacket *packet)
         {
             if (USART2_RX_STA == REC_OK)
             {
-                // 打印数据包内容
-                printf("sourceMacH: 0x%02X\n", packet->sourceMacH);
-                printf("sourceMacL: 0x%02X\n", packet->sourceMacL);
-                printf("sourceID: 0x%02X\n", packet->sourceID);
-                printf("forwardID: 0x%02X\n", packet->forwardID);
-                printf("forwardtoID: 0x%02X\n", packet->forwardtoID);
-                printf("destID: 0x%02X\n", packet->destID);
-                printf("protocol: 0x%02X\n", packet->protocol);
-                printf("packetID: 0x%02X\n", packet->ID);
-                for (int i = 0; i < sizeof(packet->data); i++)
-                {
-                    printf("data[%d]: %d\n", i, packet->data[i]);
-                }
+//                // 打印数据包内容
+//                printf("sourceMacH: 0x%02X\n", packet->sourceMacH);
+//                printf("sourceMacL: 0x%02X\n", packet->sourceMacL);
+//                printf("sourceID: 0x%02X\n", packet->sourceID);
+//                printf("forwardID: 0x%02X\n", packet->forwardID);
+//                printf("forwardtoID: 0x%02X\n", packet->forwardtoID);
+//                printf("destID: 0x%02X\n", packet->destID);
+//                printf("protocol: 0x%02X\n", packet->protocol);
+//                printf("packetID: 0x%02X\n", packet->ID);
+//                for (int i = 0; i < sizeof(packet->data); i++)
+//                {
+//                    printf("data[%d]: %d\n", i, packet->data[i]);
+//                }
 
                 OLED_ShowString(0, 2, "               ");
                 OLED_ShowString(0, 2, "Send SERVER OK ");
@@ -496,7 +496,7 @@ void processDataPacket(DataPacket *packet)
             packet->forwardtoID = routingTable[routeIndex].nextHopID;
 
             memcpy(packetBUF, packet, sizeof(DataPacket));
-            USART2_printf("%s\n", packetBUF);
+            USART2_printf("%s", packetBUF);
         }
         // 如果没有到终点的路由（暂时没写，只有链接断了才能不可达终点；后续添加路由查询与路由失败报文）
     }
@@ -676,7 +676,7 @@ int main(void)
         //    if(USART_RX_STA == REC_OK)
         //    {
         //        printf("Receive Date from PC and Send to Destination\n");
-        //        USART2_printf("%s\n",USART_RX_BUF); //通过lora发送出去
+        //        USART2_printf("%s",USART_RX_BUF); //通过lora发送出去
         //        memset(USART_RX_BUF,0,USART_REC_LEN);
         //        USART_RX_STA = 0;
         //        }

@@ -57,10 +57,10 @@
 // 数据包结构体
 typedef struct
 {
-    uint8_t destMacH; // 数据包第三字节
+    uint8_t destMacH; // 下一跳物理地址
     uint8_t destMacL;
     uint8_t destchanID; // 源节点ID
-    uint8_t sourceMacH; // 数据包第三字节
+    uint8_t sourceMacH; // 源物理地址
     uint8_t sourceMacL;
     uint8_t sourceID;    // 源节点ID
     uint8_t forwardID;   // 转发节点ID
