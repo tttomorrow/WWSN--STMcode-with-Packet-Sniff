@@ -275,15 +275,12 @@ void addRoutingEntry(uint8_t destID, uint8_t nextHopID, uint8_t macHigh, uint8_t
 // 删除路由条目
 void deleteRoutingEntry(uint8_t routeIndex)
 {
-    for (int i = 0; i < routingTableCount; i++)
+    // 找到并删除该条目
+    for (int j = routeIndex; j < routingTableCount - 1; j++)
     {
-        // 找到并删除该条目
-        for (int j = i; j < routeIndex - 1; j++)
-        {
-            routingTable[routeIndex] = routingTable[routeIndex + 1]; // 向前移动条目
-        }
-        routingTableCount--; // 更新条目数
+        routingTable[j] = routingTable[j + 1]; // 向前移动条目
     }
+    routingTableCount--; // 更新条目数
 }
 
 // 打印路由表
@@ -544,7 +541,7 @@ void processDataPacket(DataPacket *packet)
                 memset(USART2_RX_BUF, 0, USART_REC_LEN);
                 USART2_RX_STA = 0;
             }
-            else (maliciousType == 2 | maliciousType == 3){
+            if (maliciousType == 2 | maliciousType == 3){
                 if (maliciousType == 3 && (rand() % 100 < 30)) { // 生成0-99的随机数，30%概率丢弃数据包
                     // 不处理，丢掉数据包
                     memset(USART2_RX_BUF, 0, USART_REC_LEN);
