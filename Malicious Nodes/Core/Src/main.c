@@ -30,15 +30,14 @@
 
 uint8_t nodeID = 2; // 节点ID///////////////////////////////////////////////
 
-
-// 恶意节点类型 
+// 恶意节点类型
 // 1 packet drop
 // 2 Behavior Evidence Fabrication
 // 3 1+2
-uint8_t maliciousType = 1; 
+uint8_t maliciousType = 1;
 
 // On-off Attack
-// 0 关闭； 1 开启。
+// 0 不是onff； 1 是。
 uint8_t onoff = 1;
 
 // 数据包结构体
@@ -72,14 +71,14 @@ typedef struct
 typedef struct
 {
     uint32_t lastSniffTime; // 最近更新时间  4 5 6 7    16 17 18 19
-    uint8_t sourceID;  // 8 20 
-    uint8_t snifferID; // 9 21
-    uint8_t forwardCount; // 10 22
-    uint8_t sourceCount;// 11 23
-    uint8_t ackCount;// 12 24
-    uint8_t routeReqCount;// 13 25
-    uint8_t routeRepCount;// 14 26
-    uint8_t lastRSSI;// 15 27
+    uint8_t sourceID;       // 8 20
+    uint8_t snifferID;      // 9 21
+    uint8_t forwardCount;   // 10 22
+    uint8_t sourceCount;    // 11 23
+    uint8_t ackCount;       // 12 24
+    uint8_t routeReqCount;  // 13 25
+    uint8_t routeRepCount;  // 14 26
+    uint8_t lastRSSI;       // 15 27
 } SnifferTable;
 
 void SystemClock_Config(void);
@@ -115,10 +114,10 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 40000; // 发送温度数据间隔时间
-uint32_t currentMillis; // 获取当前系统时间
-uint8_t onoffCount = 0; //计算onoff开启和关闭时间，与读取温度数据时间间隔相关
-uint8_t onoffOn = 0; // 控制开启onoff攻击
+uint32_t roundTime = 40000;   // 发送温度数据间隔时间
+uint32_t currentMillis;       // 获取当前系统时间
+uint8_t onoffCount = 0;       // 计算onoff开启和关闭时间，与读取温度数据时间间隔相关
+uint8_t onoffOn = 0;          // 控制开启onoff攻击 ，1开启，0关闭
 
 // 通过配置寄存器 设置lora模块信道与地址
 // 初始mac地址为广播地址0x10 0x02，所有节点统一采用信道0x09；具体配置查询手册
@@ -234,9 +233,9 @@ int getEnvirRSSI()
         unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
         CS_Reg_Send_Data(cscxRSSIreq2, sizeof(cscxRSSIreq2)); // 发送 cscxRSSIreq2 到寄存器
         HAL_Delay(500);                                       // 延迟  毫秒
-        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);         // 接收寄存器的数据
-        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
-        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
+        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);            // 接收寄存器的数据
+        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey);    // 打印 LORA 寄存器代码和寄存器信息
+        for (int i = 0; i < 4; i++)                           // 逐字节打印接收到的寄存器数据
         {
             printf("%02X", cscxRSSI[i]);
             printf(" ");
@@ -331,7 +330,7 @@ int findRoute(uint8_t destID)
 void sendRouteRequest(uint8_t destID)
 {
     DataPacket packet;
-    packet.ID = packetID++;  
+    packet.ID = packetID++;
     packet.destMacH = 0xFF;
     packet.destMacL = 0xFF;
     packet.destchanID = channelID;
@@ -467,7 +466,7 @@ void processRouteRequest(DataPacket *packet)
         if (sendRoutRequest == 1)
         {
             // 如果之前发送过路由查询报文
-            
+
             return;
         }
         printf("\r\nNo route found for destination node %d\r\n", packet->destID);
@@ -533,32 +532,36 @@ void processDataPacket(DataPacket *packet)
         // 发送ack数据包
         sendAckPacket(packet->forwardID, packet->sourceMacH, packet->sourceMacL);
         uint8_t envirRSSI = getEnvirRSSI();
-        
-        if ((onoff == 1 && onoffOn ==1) || onoff == 0)
+
+        if ((onoff == 1 && onoffOn == 1) || onoff == 0) // 判断是否是正常节点行为，若不正常：
         {
-            if (maliciousType == 1){//丢包攻击
+            if (maliciousType == 1)
+            { // 丢包攻击
                 // 不处理，丢掉数据包
                 memset(USART2_RX_BUF, 0, USART_REC_LEN);
                 USART2_RX_STA = 0;
             }
-            if (maliciousType == 2 | maliciousType == 3){
-                if (maliciousType == 3 && (rand() % 100 < 30)) { // 生成0-99的随机数，30%概率丢弃数据包
+            if (maliciousType == 2 | maliciousType == 3)
+            {
+                if (maliciousType == 3 && (rand() % 100 < 30))
+                { // 生成0-99的随机数，30%概率丢弃数据包
                     // 不处理，丢掉数据包
                     memset(USART2_RX_BUF, 0, USART_REC_LEN);
                     USART2_RX_STA = 0;
                 }
-                else{// 修改数据包监听表内容
+                else
+                { // 修改数据包监听表内容
                     packet->data[10] = 0xFF;
-                    packet->data[22] = 0xFF; //修改监听表的节点转发
+                    packet->data[22] = 0xFF; // 修改监听表的节点转发
                     packet->data[11] = 0xFF;
-                    packet->data[23] = 0xFF; //修改监听表的节点源次数
+                    packet->data[23] = 0xFF; // 修改监听表的节点源次数
                     packet->data[12] = 0xFF;
-                    packet->data[24] = 0xFF; //修改监听表的节点ACK次数
+                    packet->data[24] = 0xFF; // 修改监听表的节点ACK次数
                     packet->data[13] = 0xFF;
-                    packet->data[25] = 0xFF; //修改监听表的节点路由查询次数
+                    packet->data[25] = 0xFF; // 修改监听表的节点路由查询次数
                     packet->data[14] = 0xFF;
-                    packet->data[26] = 0xFF; //修改监听表的节点路由回复次数
-                    
+                    packet->data[26] = 0xFF; // 修改监听表的节点路由回复次数
+
                     int routeIndex = findRoute(targetID);
                     printf("\r\nrouteIndex: %d\r\n", routeIndex);
                     // 有到数据包终点的路由 （如果接收到发给自己的数据包，就意味着自己的路由表有到终点的路由，这是因为前一步进行了路由回复）
@@ -573,13 +576,13 @@ void processDataPacket(DataPacket *packet)
                         packet->forwardID = nodeID;
                         packet->forwardtoID = routingTable[routeIndex].nextHopID;
                         // 从数据包第29字节开始向后遍历，直到找到第一个为0的三字节 记录数据包路径、信号强度和环境噪声
-                        for (int i = 28; i >= 0; i = i+3)
+                        for (int i = 28; i >= 0; i = i + 3)
                         {
                             if (packet->data[i] == 0)
                             {
                                 packet->data[i] = nodeID;
-                                packet->data[i+1] = RSSI;
-                                packet->data[i+2] = envirRSSI;
+                                packet->data[i + 1] = RSSI;
+                                packet->data[i + 2] = envirRSSI;
                                 break;
                             }
                         }
@@ -595,7 +598,8 @@ void processDataPacket(DataPacket *packet)
                         memcpy(packetBUF, packet, sizeof(DataPacket));
                         USART2_printf("%s\n", packetBUF);
                     }
-                    else{ // 没找到路由，链路断了
+                    else
+                    { // 没找到路由，链路断了
                         sendRouteRequest(targetID);
                         previousRouteReq = HAL_GetTick();
                         sendRoutRequest = 1;
@@ -604,7 +608,8 @@ void processDataPacket(DataPacket *packet)
                 }
             }
         }
-        else{ //onoff攻击关闭，表现的像正常节点
+        else
+        { // onoff攻击关闭，表现的像正常节点
             // 查询路由表，查找目标地址的路由
             int routeIndex = findRoute(targetID);
             printf("\r\nrouteIndex: %d\r\n", routeIndex);
@@ -620,13 +625,13 @@ void processDataPacket(DataPacket *packet)
                 packet->forwardID = nodeID;
                 packet->forwardtoID = routingTable[routeIndex].nextHopID;
                 // 从数据包第29字节开始向后遍历，直到找到第一个为0的三字节 记录数据包路径、信号强度和环境噪声
-                for (int i = 28; i >= 0; i = i+3)
+                for (int i = 28; i >= 0; i = i + 3)
                 {
                     if (packet->data[i] == 0)
                     {
                         packet->data[i] = nodeID;
-                        packet->data[i+1] = RSSI;
-                        packet->data[i+2] = envirRSSI;
+                        packet->data[i + 1] = RSSI;
+                        packet->data[i + 2] = envirRSSI;
                         break;
                     }
                 }
@@ -642,7 +647,8 @@ void processDataPacket(DataPacket *packet)
                 memcpy(packetBUF, packet, sizeof(DataPacket));
                 USART2_printf("%s\n", packetBUF);
             }
-            else{ // 没找到路由，链路断了
+            else
+            { // 没找到路由，链路断了
                 sendRouteRequest(targetID);
                 previousRouteReq = HAL_GetTick();
                 sendRoutRequest = 1;
@@ -759,7 +765,6 @@ int main(void)
     }
     HAL_Init();
 
-
     addRoutingEntry(nodeID, nodeID, MacH, MacL);
     DataPacket receivedPacket;
     DataPacket datapacket;
@@ -770,11 +775,12 @@ int main(void)
         if (currentMillis - previousMillisA0 >= roundTime || previousMillisA0 == 0) // 当前时间刻减去前次执行的时间刻
         {
             previousMillisA0 = currentMillis; // 更新执行时间刻
-            
-            //控制onoff攻击开关
+
+            // 控制onoff攻击开关
             onoffCount++;
-            if (onoffCount % 5 == 4){
-            onoffOn = !onoffOn;
+            if (onoffCount % 5 == 4)
+            {
+                onoffOn = !onoffOn;
             }
 
             //        OLED_ShowString(0, 4, "Send data ......"); // 在 OLED 显示屏上显示 "Send data ......"
@@ -849,8 +855,9 @@ int main(void)
                     sendRoutRequest = 1;
                     getRoutReplay = 0;
                 }
-                
-                if (previousNotGetACK == 5){
+
+                if (previousNotGetACK == 5)
+                {
                     deleteRoutingEntry(routeIndex);
                 }
             }

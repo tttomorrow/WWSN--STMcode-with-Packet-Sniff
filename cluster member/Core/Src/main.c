@@ -104,7 +104,7 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 40000; // 发送温度数据间隔时间
+uint32_t roundTime = 40000;   // 发送温度数据间隔时间
 
 // 通过配置寄存器 设置lora模块信道与地址
 // 初始mac地址为广播地址0x10 0x02，所有节点统一采用信道0x09；具体配置查询手册
@@ -220,9 +220,9 @@ int getEnvirRSSI()
         unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
         CS_Reg_Send_Data(cscxRSSIreq2, sizeof(cscxRSSIreq2)); // 发送 cscxRSSIreq2 到寄存器
         HAL_Delay(500);                                       // 延迟  毫秒
-        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);         // 接收寄存器的数据
-        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
-        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
+        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);            // 接收寄存器的数据
+        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey);    // 打印 LORA 寄存器代码和寄存器信息
+        for (int i = 0; i < 4; i++)                           // 逐字节打印接收到的寄存器数据
         {
             printf("%02X", cscxRSSI[i]);
             printf(" ");
@@ -257,7 +257,6 @@ void addRoutingEntry(uint8_t destID, uint8_t nextHopID, uint8_t macHigh, uint8_t
     routingTable[routingTableCount].macLow = macLow;
     routingTableCount++;
 }
-
 
 // 删除路由条目
 void deleteRoutingEntry(uint8_t routeIndex)
@@ -457,7 +456,7 @@ void processRouteRequest(DataPacket *packet)
         if (sendRoutRequest == 1)
         {
             // 如果之前发送过路由查询报文
-            
+
             return;
         }
         printf("\r\nNo route found for destination node %d\r\n", packet->destID);
@@ -538,13 +537,13 @@ void processDataPacket(DataPacket *packet)
             packet->forwardID = nodeID;
             packet->forwardtoID = routingTable[routeIndex].nextHopID;
             // 从数据包第29字节开始向后遍历，直到找到第一个为0的三字节 记录数据包路径、信号强度和环境噪声
-            for (int i = 28; i >= 0; i = i+3)
+            for (int i = 28; i >= 0; i = i + 3)
             {
                 if (packet->data[i] == 0)
                 {
                     packet->data[i] = nodeID;
-                    packet->data[i+1] = RSSI;
-                    packet->data[i+2] = envirRSSI;
+                    packet->data[i + 1] = RSSI;
+                    packet->data[i + 2] = envirRSSI;
                     break;
                 }
             }
@@ -560,7 +559,8 @@ void processDataPacket(DataPacket *packet)
             memcpy(packetBUF, packet, sizeof(DataPacket));
             USART2_printf("%s\n", packetBUF);
         }
-        else{ // 没找到路由，链路断了
+        else
+        { // 没找到路由，链路断了
             sendRouteRequest(targetID);
             previousRouteReq = HAL_GetTick();
             sendRoutRequest = 1;
@@ -761,8 +761,9 @@ int main(void)
                     sendRoutRequest = 1;
                     getRoutReplay = 0;
                 }
-                
-                if (previousNotGetACK == 5){
+
+                if (previousNotGetACK == 5)
+                {
                     deleteRoutingEntry(routeIndex);
                 }
             }
