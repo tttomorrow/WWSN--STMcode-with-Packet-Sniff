@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 2; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 6; // 节点ID///////////////////////////////////////////////
 
 // 数据包结构体
 typedef struct
@@ -270,6 +270,7 @@ void deleteRoutingEntry(uint8_t routeIndex)
         }
         routingTableCount--; // 更新条目数
     }
+    OLED_ShowString(0, 4, "no route to 1");
 }
 
 // 打印路由表
@@ -305,7 +306,10 @@ int findRoute(uint8_t destID)
         if (routingTable[i].destID == destID)
         {
             printf("; Routeindex: i=%d\r\n", i);
-            OLED_ShowString(0, 4, "find route to 1");
+            char indexStr[10];                                  // Array to hold the string version of i
+            sprintf(indexStr, "%d", routingTable[i].nextHopID); // Convert i to a string
+            OLED_ShowString(0, 4, "               ");
+            OLED_ShowString(0, 4, (unsigned char *)indexStr);
             return i;
         }
     }
@@ -478,12 +482,15 @@ void processRouteReply(DataPacket *packet)
     // 处理路由回复逻辑
     int routeIndex = findRoute(packet->destID);
     // 路由表中没该信息或者有不同的路径则添加路由
-    if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
-    {
+//    if (packet->sourceID != 1)
+    { // 如果不是汇聚节点的回复
+        if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
+        {
 
-        addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
-        getRoutReplay = 1;
-        printf("\r\nAddRoutingEntry\r\n");
+            addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
+            getRoutReplay = 1;
+            printf("\r\nAddRoutingEntry\r\n");
+        }
     }
 }
 

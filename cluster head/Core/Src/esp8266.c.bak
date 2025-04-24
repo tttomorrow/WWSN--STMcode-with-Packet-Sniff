@@ -132,7 +132,7 @@ uint8_t ESP8266_CONNECT_SERVER(uint8_t *ServerIP,uint8_t *Port)
 		if(ESP8266_send_cmd((uint8_t *)"AT+CIPMODE=1",(uint8_t *)"OK",100))	 return 1;
 		//进入透传模式
 		if(ESP8266_send_cmd((uint8_t *)"AT+CIPSEND",(uint8_t *)">",100))	 return 4;
-        OLED_ShowString(0,2,"SERVER OK ..");
+	
 		printf("***CONNECT SERVER SUCCEED***\r\n");
 		USART_RX_STA=0;	
 		servernotok=0;

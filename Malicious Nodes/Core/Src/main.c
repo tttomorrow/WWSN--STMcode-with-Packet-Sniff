@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 2; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 8; // 节点ID///////////////////////////////////////////////
 
 // 恶意节点类型
 // 1 packet drop
@@ -114,7 +114,7 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 40000;   // 发送温度数据间隔时间
+uint32_t roundTime = 80000;   // 发送温度数据间隔时间
 uint32_t currentMillis;       // 获取当前系统时间
 uint8_t onoffCount = 0;       // 计算onoff开启和关闭时间，与读取温度数据时间间隔相关
 uint8_t onoffOn = 0;          // 控制开启onoff攻击 ，1开启，0关闭
@@ -544,7 +544,7 @@ void processDataPacket(DataPacket *packet)
             if (maliciousType == 2 | maliciousType == 3)
             {
                 if (maliciousType == 3 && (rand() % 100 < 30))
-                { // 生成0-99的随机数，30%概率丢弃数据包
+                { // 生成0-99的随机数，70%概率丢弃数据包
                     // 不处理，丢掉数据包
                     memset(USART2_RX_BUF, 0, USART_REC_LEN);
                     USART2_RX_STA = 0;

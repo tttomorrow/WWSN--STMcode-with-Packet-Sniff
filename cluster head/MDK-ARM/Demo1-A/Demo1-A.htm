@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Demo1-A\Demo1-A.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Demo1-A\Demo1-A.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Tue Sep 24 10:39:53 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Thu Apr 24 15:23:29 2025
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -180,10 +180,10 @@ Global Symbols
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 </UL>
 
-<P><STRONG><a name="[94]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
+<P><STRONG><a name="[93]"></a>__aeabi_memcpy</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, memcpya.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;internal_alloc
@@ -198,7 +198,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 <BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_work_test
@@ -228,7 +228,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9b]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
+<BR><BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
 </UL>
 
 <P><STRONG><a name="[2c]"></a>__aeabi_llsl</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llshl.o(.text))
@@ -327,10 +327,10 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 </UL>
 
-<P><STRONG><a name="[44]"></a>ESP8266_CONNECT_SERVER</STRONG> (Thumb, 164 bytes, Stack size 0 bytes, esp8266.o(i.ESP8266_CONNECT_SERVER))
+<P><STRONG><a name="[44]"></a>ESP8266_CONNECT_SERVER</STRONG> (Thumb, 174 bytes, Stack size 0 bytes, esp8266.o(i.ESP8266_CONNECT_SERVER))
 <BR><BR>[Calls]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_send_cmd
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
@@ -386,7 +386,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cstxInitialize
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;connectServer
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WIFI_Dect
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_send_cmd
@@ -400,9 +400,9 @@ Global Symbols
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CS_OLED_Init
 </UL>
 
-<P><STRONG><a name="[8e]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32g0xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
+<P><STRONG><a name="[8d]"></a>HAL_GPIO_ReadPin</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32g0xx_hal_gpio.o(i.HAL_GPIO_ReadPin))
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 </UL>
 
 <P><STRONG><a name="[3d]"></a>HAL_GPIO_WritePin</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32g0xx_hal_gpio.o(i.HAL_GPIO_WritePin))
@@ -744,14 +744,14 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
+<BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_send_cmd
 </UL>
 
-<P><STRONG><a name="[95]"></a>USART_Interupt_Enable</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, usart.o(i.USART_Interupt_Enable))
+<P><STRONG><a name="[94]"></a>USART_Interupt_Enable</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, usart.o(i.USART_Interupt_Enable))
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -775,17 +775,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[48]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfa.o(i.__0printf))
-<BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteReply
+<BR><BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processAckPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_send_cmd
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ESP8266_CONNECT_SERVER
 </UL>
@@ -833,7 +826,7 @@ Global Symbols
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[96]"></a>configureModule</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(i.configureModule))
+<P><STRONG><a name="[95]"></a>configureModule</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, main.o(i.configureModule))
 <BR><BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -858,13 +851,11 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
 </UL>
 
-<P><STRONG><a name="[8c]"></a>findRoute</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, main.o(i.findRoute))
-<BR><BR>[Calls]<UL><LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
+<P><STRONG><a name="[98]"></a>findRoute</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, main.o(i.findRoute))
+<BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteReply
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 </UL>
@@ -874,45 +865,44 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> printfa.o(i.__0printf)
 </UL>
-<P><STRONG><a name="[8d]"></a>getEnvirRSSI</STRONG> (Thumb, 102 bytes, Stack size 0 bytes, main.o(i.getEnvirRSSI))
+<P><STRONG><a name="[8c]"></a>getEnvirRSSI</STRONG> (Thumb, 102 bytes, Stack size 0 bytes, main.o(i.getEnvirRSSI))
 <BR><BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cstx_reg_Receive_Data
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CS_Reg_Send_Data
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 </UL>
 
-<P><STRONG><a name="[8f]"></a>handleReceivedPacket</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, main.o(i.handleReceivedPacket))
+<P><STRONG><a name="[8e]"></a>handleReceivedPacket</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, main.o(i.handleReceivedPacket))
 <BR><BR>[Calls]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteReply
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processAckPacket
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processAckPacket
 </UL>
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[22]"></a>main</STRONG> (Thumb, 564 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cstx_reg_Receive_Data
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cstxInitialize
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Interupt_Enable
+<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Interupt_Enable
 <LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART1_UART_Init
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[4e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
 <LI><a href="#[42]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CS_Reg_Send_Data
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;connectServer
-<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;configureModule
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;configureModule
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addRoutingEntry
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
@@ -924,43 +914,39 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[93]"></a>processAckPacket</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, main.o(i.processAckPacket))
-<BR><BR>[Calls]<UL><LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
-</UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
+<P><STRONG><a name="[8f]"></a>processAckPacket</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, main.o(i.processAckPacket))
+<BR><BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 </UL>
 
-<P><STRONG><a name="[92]"></a>processDataPacket</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, main.o(i.processDataPacket))
+<P><STRONG><a name="[92]"></a>processDataPacket</STRONG> (Thumb, 258 bytes, Stack size 0 bytes, main.o(i.processDataPacket))
 <BR><BR>[Calls]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendAckPacket
+<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getEnvirRSSI
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;connectServer
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
 <LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
+<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 </UL>
 
-<P><STRONG><a name="[91]"></a>processRouteReply</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, main.o(i.processRouteReply))
-<BR><BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
+<P><STRONG><a name="[91]"></a>processRouteReply</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, main.o(i.processRouteReply))
+<BR><BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addRoutingEntry
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
+<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 </UL>
 
-<P><STRONG><a name="[90]"></a>processRouteRequest</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, main.o(i.processRouteRequest))
+<P><STRONG><a name="[90]"></a>processRouteRequest</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, main.o(i.processRouteRequest))
 <BR><BR>[Calls]<UL><LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
+<LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
 </UL>
-<BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
+<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 </UL>
 
 <P><STRONG><a name="[88]"></a>realloc</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, mallocr.o(i.realloc))
@@ -971,29 +957,27 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;addRoutingEntry
 </UL>
 
-<P><STRONG><a name="[98]"></a>sendAckPacket</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, main.o(i.sendAckPacket))
+<P><STRONG><a name="[97]"></a>sendAckPacket</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, main.o(i.sendAckPacket))
 <BR><BR>[Calls]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 </UL>
 
 <P><STRONG><a name="[99]"></a>sendRouteReply</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, main.o(i.sendRouteReply))
 <BR><BR>[Calls]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
 <LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 </UL>
 
-<P><STRONG><a name="[97]"></a>sendRouteRequest</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, main.o(i.sendRouteRequest))
+<P><STRONG><a name="[96]"></a>sendRouteRequest</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, main.o(i.sendRouteRequest))
 <BR><BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[4b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1062,7 +1046,7 @@ Local Symbols
 <LI> printfa.o(i.__0vsprintf)
 </UL>
 <P><STRONG><a name="[82]"></a>internal_alloc</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, mallocr.o(i.internal_alloc))
-<BR><BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<BR><BR>[Calls]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;realloc
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc

@@ -145,16 +145,16 @@ void getEnvirRSSI()
         CS_Reg_Send_Data(cscxRSSIreq2, sizeof(cscxRSSIreq2)); // 发送 cscxRSSIreq2 到寄存器
         HAL_Delay(500);                                       // 延迟  毫秒
         unsigned char cscxRSSI[4] = {0x00, 0x00, 0x00, 0x00};
-        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey);         // 接收寄存器的数据
-//        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
-//        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
-//        {
-//            printf("%02X", cscxRSSI[i]);
-//            printf(" ");
-//        }
-//        printf("\n");
-        printf("\r\ncurrentChannelNoise: -%ddBm\r\n", 256 - cscxRSSI[3]);
-        printf("\r\ncurrentChannelSNR: %ddB\r\n", RSSI - cscxRSSI[3]);
+        cstx_reg_Receive_Data(cscxRSSI, &RSSIkey); // 接收寄存器的数据
+                                                   //        printf("\r\n\r\nLORA REG CODE %d REG->", RSSIkey); // 打印 LORA 寄存器代码和寄存器信息
+                                                   //        for (int i = 0; i < 4; i++)                        // 逐字节打印接收到的寄存器数据
+                                                   //        {
+                                                   //            printf("%02X", cscxRSSI[i]);
+                                                   //            printf(" ");
+                                                   //        }
+                                                   //        printf("\n");
+        printf("currentChannelNoise: -%ddBm\n", 256 - cscxRSSI[3]);
+        printf("currentChannelSNR: %ddB\r\n", RSSI - cscxRSSI[3]);
     }
 }
 
@@ -204,13 +204,13 @@ void printRoutingTable()
  */
 int findRoute(uint8_t destID)
 {
-    printf("Route table:");
+    // printf("Route table:");
     for (int i = 0; i < routingTableCount; i++)
     {
-        printf("%02X?%02X, ", routingTable[i].destID, destID);
+        // printf("%02X?%02X, ", routingTable[i].destID, destID);
         if (routingTable[i].destID == destID)
         {
-            printf("; Routeindex: i=%d\n", i);
+            // printf("; Routeindex: i=%d\n", i);
             return i;
         }
     }
@@ -263,8 +263,8 @@ void sendRouteRequest(uint8_t destID)
     strcpy(packet.data, "RouteReq");
 
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s", packetBUF);
-    printf("Route Request sent to find node%d\n", destID);
+    USART2_printf("%s\n", packetBUF);
+    // printf("Route Request sent to find node%d\n", destID);
 }
 
 /**
@@ -295,11 +295,11 @@ void sendRouteReply(uint8_t destID, uint8_t forwardID)
     memset(packetBUF, 0, sizeof(packet));
 
     memcpy(packetBUF, &packet, sizeof(DataPacket));
-    USART2_printf("%s", packetBUF);
-//    for (int i = 0; i < sizeof(packet); i++)
-//    {
-//        printf("%02x", packetBUF[i]);
-//    }
+    USART2_printf("%s\n", packetBUF);
+    //    for (int i = 0; i < sizeof(packet); i++)
+    //    {
+    //        printf("%02x", packetBUF[i]);
+    //    }
     printf("Route Reply sent to %d from node%d\n", destID, nodeID);
 }
 
@@ -330,8 +330,8 @@ void sendAckPacket(uint8_t destID, uint8_t macH, uint8_t macL)
     }
     memset(packetBUF, 0, sizeof(packet));
     memcpy(packetBUF, &packet, sizeof(packet));
-    USART2_printf("%s", packetBUF);
-    printf("Acknowledgement sent to %d\n", destID);
+    USART2_printf("%s\n", packetBUF);
+    // printf("Acknowledgement sent to %d\n", destID);
 }
 
 /**
@@ -339,6 +339,7 @@ void sendAckPacket(uint8_t destID, uint8_t macH, uint8_t macL)
  *
  * @param packet
  */
+
 void handleReceivedPacket(DataPacket *packet)
 {
     switch (packet->protocol)
@@ -356,7 +357,7 @@ void handleReceivedPacket(DataPacket *packet)
         processAckPacket(packet);
         break;
     default:
-        printf("Unknown protocol: %d\n", packet->protocol);
+        // printf("Unknown protocol: %d\n", packet->protocol);
         break;
     }
 }
@@ -374,7 +375,7 @@ void processRouteRequest(DataPacket *packet)
     // 如果发送过路由请求且该请求查询的路径终点与之前查询的一致，则不做任何操作
 
     // 查询路由表
-    printf("Received Route Request from %d\n", packet->sourceID);
+    // printf("Received Route Request from %d\n", packet->sourceID);
     if (routeIndex != -1)
     {
         // 路由表中有地址
@@ -388,7 +389,7 @@ void processRouteRequest(DataPacket *packet)
             // 如果之前发送过路由查询报文
             return;
         }
-        printf("No route found for destination node %d\n", packet->destID);
+        // printf("No route found for destination node %d\n", packet->destID);
         sendRouteRequest(packet->destID);
         previousMillisA1 = HAL_GetTick();
         sendRoutRequest = 1;
@@ -402,18 +403,18 @@ void processRouteRequest(DataPacket *packet)
  */
 void processRouteReply(DataPacket *packet)
 {
-    printf("Received Route Reply from %02X%02X, \npacket sourceID:%02X, \nforwardID:%02X, \ndestID:%02X\n", packet->sourceMacH,
-           packet->sourceMacL, packet->sourceID, packet->forwardID, packet->destID);
-    // 处理路由回复逻辑
-    int routeIndex = findRoute(packet->destID);
-    // 路由表中没该信息或者有不同的路径则添加路由
-    if (routeIndex == -1 || routingTable[routeIndex].macLow != packet->sourceMacL)
-    {
+    // printf("Received Route Reply from %02X%02X, \npacket sourceID:%02X, \nforwardID:%02X, \ndestID:%02X\n", packet->sourceMacH,
+           //packet->sourceMacL, packet->sourceID, packet->forwardID, packet->destID);
+           // 处理路由回复逻辑
+           int routeIndex = findRoute(packet->destID);
+           // 路由表中没该信息或者有不同的路径则添加路由
+           if (routeIndex == -1 || routingTable[routeIndex].macLow != packet->sourceMacL)
+           {
 
-        addRoutingEntry(packet->forwardID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
-        getRoutReplay = 1;
-        printf("AddRoutingEntry\n");
-    }
+               addRoutingEntry(packet->forwardID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
+               getRoutReplay = 1;
+               // printf("AddRoutingEntry\n");
+           }
 }
 
 /**
@@ -423,7 +424,7 @@ void processRouteReply(DataPacket *packet)
  */
 void processDataPacket(DataPacket *packet)
 {
-    printf("\r\nReceived Data Packet from %d with node %d forward\r\n", packet->sourceID, packet->forwardID);
+    printf("Received Data Packet from %d with node %d forward\n", packet->sourceID, packet->forwardID);
     // 处理数据包逻辑
     if (packet->destID == nodeID)
     {
@@ -449,15 +450,15 @@ void processDataPacket(DataPacket *packet)
         {
             if (USART2_RX_STA == REC_OK)
             {
-//                // 打印数据包内容
-//                printf("sourceMacH: 0x%02X\n", packet->sourceMacH);
-//                printf("sourceMacL: 0x%02X\n", packet->sourceMacL);
-//                printf("sourceID: 0x%02X\n", packet->sourceID);
-//                printf("forwardID: 0x%02X\n", packet->forwardID);
-//                printf("forwardtoID: 0x%02X\n", packet->forwardtoID);
-//                printf("destID: 0x%02X\n", packet->destID);
-//                printf("protocol: 0x%02X\n", packet->protocol);
-//                printf("packetID: 0x%02X\n", packet->ID);
+                //                // 打印数据包内容
+                //                printf("sourceMacH: 0x%02X\n", packet->sourceMacH);
+                //                printf("sourceMacL: 0x%02X\n", packet->sourceMacL);
+                //                printf("sourceID: 0x%02X\n", packet->sourceID);
+                //                printf("forwardID: 0x%02X\n", packet->forwardID);
+                //                printf("forwardtoID: 0x%02X\n", packet->forwardtoID);
+                //                printf("destID: 0x%02X\n", packet->destID);
+                //                printf("protocol: 0x%02X\n", packet->protocol);
+                //                printf("packetID: 0x%02X\n", packet->ID);
 //                for (int i = 0; i < sizeof(packet->data); i++)
 //                {
 //                    printf("data[%d]: %d\n", i, packet->data[i]);
@@ -465,6 +466,7 @@ void processDataPacket(DataPacket *packet)
 
                 OLED_ShowString(0, 2, "               ");
                 OLED_ShowString(0, 2, "Send SERVER OK ");
+                OLED_ShowString(0, 2, "               ");
             }
         }
         OLED_ShowString(0, 6, "                ");
@@ -482,7 +484,7 @@ void processDataPacket(DataPacket *packet)
         sendAckPacket(packet->forwardID, packet->sourceMacH, packet->sourceMacL);
         getEnvirRSSI();
         int routeIndex = findRoute(targetID);
-        printf("\r\nrouteIndex: %d\r\n", routeIndex);
+        // printf("\r\nrouteIndex: %d\r\n", routeIndex);
         // 有到数据包终点的路由 （如果接收到发给自己的数据包，就意味着自己的路由表有到终点的路由，这是因为前一步进行了路由回复）
         if (routeIndex != -1)
         {
@@ -496,7 +498,7 @@ void processDataPacket(DataPacket *packet)
             packet->forwardtoID = routingTable[routeIndex].nextHopID;
 
             memcpy(packetBUF, packet, sizeof(DataPacket));
-            USART2_printf("%s", packetBUF);
+            USART2_printf("%s\n", packetBUF);
         }
         // 如果没有到终点的路由（暂时没写，只有链接断了才能不可达终点；后续添加路由查询与路由失败报文）
     }
@@ -509,7 +511,7 @@ void processDataPacket(DataPacket *packet)
  */
 void processAckPacket(DataPacket *packet)
 {
-    printf("Received Acknowledgement from %d\n", packet->sourceID);
+    // printf("Received Acknowledgement from %d\n", packet->sourceID);
     packet->destMacH = packet->sourceMacH;
     packet->destMacL = packet->sourceMacL;
     packet->sourceMacH = MacH;
@@ -649,7 +651,7 @@ int main(void)
             {
                 for (int i = 0; i < sizeof(receivedPacket.data); i++)
                 {
-                    if (receivedPacket.data[i] == 0xFF)
+                    if ((unsigned char)receivedPacket.data[i] == 0xFF)
                     {
                         receivedPacket.data[i] = 0x00;
                     }
@@ -676,7 +678,7 @@ int main(void)
         //    if(USART_RX_STA == REC_OK)
         //    {
         //        printf("Receive Date from PC and Send to Destination\n");
-        //        USART2_printf("%s",USART_RX_BUF); //通过lora发送出去
+        //        USART2_printf("%s\n",USART_RX_BUF); //通过lora发送出去
         //        memset(USART_RX_BUF,0,USART_REC_LEN);
         //        USART_RX_STA = 0;
         //        }
