@@ -28,7 +28,8 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 6; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 10; // 节点ID///////////////////////////////////////////////
+// 注意：为了方便控制网络拓扑，修改节点ID时请同步修改processRouteReply函数条件
 
 // 数据包结构体
 typedef struct
@@ -104,7 +105,7 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 40000;   // 发送温度数据间隔时间
+uint32_t roundTime = 80000;   // 发送温度数据间隔时间
 
 // 通过配置寄存器 设置lora模块信道与地址
 // 初始mac地址为广播地址0x10 0x02，所有节点统一采用信道0x09；具体配置查询手册
@@ -482,8 +483,10 @@ void processRouteReply(DataPacket *packet)
     // 处理路由回复逻辑
     int routeIndex = findRoute(packet->destID);
     // 路由表中没该信息或者有不同的路径则添加路由
-//    if (packet->sourceID != 1)
-    { // 如果不是汇聚节点的回复
+    // if (packet->sourceID != 1)    // 如果不是汇聚节点的回复
+    // if (packet->sourceID == 8)  //2,3,4
+    // if (packet->sourceID == 11) //7,9,10
+    {
         if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
         {
 

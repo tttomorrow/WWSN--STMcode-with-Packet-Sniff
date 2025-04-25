@@ -1539,7 +1539,7 @@ Image Symbol Table
     main                                     0x0800339d   Thumb Code  1552  main.o(i.main)
     processAckPacket                         0x08003a19   Thumb Code    34  main.o(i.processAckPacket)
     processDataPacket                        0x08003a69   Thumb Code   538  main.o(i.processDataPacket)
-    processRouteReply                        0x08003d45   Thumb Code    74  main.o(i.processRouteReply)
+    processRouteReply                        0x08003d45   Thumb Code    76  main.o(i.processRouteReply)
     processRouteRequest                      0x08003dad   Thumb Code    74  main.o(i.processRouteRequest)
     realloc                                  0x08003e4d   Thumb Code   110  mallocr.o(i.realloc)
     sendAckPacket                            0x08003ec1   Thumb Code   100  main.o(i.sendAckPacket)
@@ -1800,7 +1800,7 @@ Image component sizes
 
        330         32          0          5          0          0   dht11.o
        348         22          0          0          0          0   gpio.o
-      4248       1386         96         86         75          0   main.o
+      4248       1384         96         86         75          0   main.o
        740         12       2480          0          0          0   oled.o
         28          8        192          0       1536          0   startup_stm32g031xx.o
        176         26          0         12          0          0   stm32g0xx_hal.o
@@ -1818,7 +1818,7 @@ Image component sizes
        844        114          0          8       1056          0   usart.o
 
     ----------------------------------------------------------------------
-     12232       1880       2920        120       2672          0   Object Totals
+     12232       1878       2920        120       2672          0   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          8          0          0          5          5          0   (incl. Padding)
 
@@ -1878,9 +1878,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     16540       2080       2920        136       2672          0   Grand Totals
-     16540       2080       2920        136       2672          0   ELF Image Totals
-     16540       2080       2920        136          0          0   ROM Totals
+     16540       2078       2920        136       2672          0   Grand Totals
+     16540       2078       2920        136       2672          0   ELF Image Totals
+     16540       2078       2920        136          0          0   ROM Totals
 
 ==============================================================================
 

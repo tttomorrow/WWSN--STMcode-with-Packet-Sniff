@@ -487,13 +487,16 @@ void processRouteReply(DataPacket *packet)
            packet->sourceMacL, packet->sourceID, packet->forwardID, packet->destID);
     // 处理路由回复逻辑
     int routeIndex = findRoute(packet->destID);
+    if (packet->sourceID== 1)
     // 路由表中没该信息或者有不同的路径则添加路由
+    {
     if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
     {
 
         addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
         getRoutReplay = 1;
         printf("\r\nAddRoutingEntry\r\n");
+    }
     }
 }
 
