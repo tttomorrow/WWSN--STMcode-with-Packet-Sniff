@@ -3,7 +3,7 @@
 <title>Static Call Graph - [Demo1-A\Demo1-A.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Demo1-A\Demo1-A.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Fri Apr 25 14:24:46 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050169: Last Updated: Fri Apr 25 17:01:50 2025
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -425,7 +425,6 @@ Global Symbols
 <LI><a href="#[58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCC_ClockConfig
 <LI><a href="#[57]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_RCCEx_PeriphCLKConfig
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sniff
-<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Delay
@@ -855,7 +854,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[8f]"></a>findRoute</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, main.o(i.findRoute))
+<P><STRONG><a name="[8f]"></a>findRoute</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, main.o(i.findRoute))
 <BR><BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OLED_ShowString
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
@@ -895,7 +894,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[22]"></a>main</STRONG> (Thumb, 1570 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[22]"></a>main</STRONG> (Thumb, 1608 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
@@ -960,10 +959,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;handleReceivedPacket
 </UL>
 
-<P><STRONG><a name="[93]"></a>processRouteRequest</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, main.o(i.processRouteRequest))
-<BR><BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GetTick
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteRequest
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
+<P><STRONG><a name="[93]"></a>processRouteRequest</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, main.o(i.processRouteRequest))
+<BR><BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sendRouteReply
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;findRoute
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
@@ -1003,8 +1000,7 @@ Global Symbols
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_printf
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processRouteRequest
-<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
+<BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;processDataPacket
 <LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 

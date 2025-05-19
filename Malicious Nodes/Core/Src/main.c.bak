@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 8; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 11; // 节点ID///////////////////////////////////////////////
 
 // 恶意节点类型
 // 1 packet drop
@@ -315,6 +315,7 @@ int findRoute(uint8_t destID)
         if (routingTable[i].destID == destID)
         {
             printf("; Routeindex: i=%d\r\n", i);
+            OLED_ShowString(0, 4, "               ");
             OLED_ShowString(0, 4, "find route to 1");
             return i;
         }
@@ -487,9 +488,8 @@ void processRouteReply(DataPacket *packet)
            packet->sourceMacL, packet->sourceID, packet->forwardID, packet->destID);
     // 处理路由回复逻辑
     int routeIndex = findRoute(packet->destID);
-    if (packet->sourceID== 1)
-    // 路由表中没该信息或者有不同的路径则添加路由
-    {
+    if (packet->sourceID == 1)
+    {// 路由表中没该信息或者有不同的路径则添加路由
     if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
     {
 

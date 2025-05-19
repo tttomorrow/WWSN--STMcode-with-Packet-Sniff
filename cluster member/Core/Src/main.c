@@ -28,7 +28,7 @@
 #define MacL 0xFF      ///////////////////////////////////////////
 #define channelID 0x09 // 信道ID
 
-uint8_t nodeID = 10; // 节点ID///////////////////////////////////////////////
+uint8_t nodeID = 7; // 节点ID///////////////////////////////////////////////
 // 注意：为了方便控制网络拓扑，修改节点ID时请同步修改processRouteReply函数条件
 
 // 数据包结构体
@@ -105,7 +105,7 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 80000;   // 发送温度数据间隔时间
+uint32_t roundTime = 40000;   // 发送温度数据间隔时间
 
 // 通过配置寄存器 设置lora模块信道与地址
 // 初始mac地址为广播地址0x10 0x02，所有节点统一采用信道0x09；具体配置查询手册
@@ -304,7 +304,7 @@ int findRoute(uint8_t destID)
     for (int i = 0; i < routingTableCount; i++)
     {
         printf("%02X=%02X, ", routingTable[i].destID, destID);
-        if (routingTable[i].destID == destID)
+        if (routingTable[i].destID == destID && routingTable[i].nextHopID != nodeID)
         {
             printf("; Routeindex: i=%d\r\n", i);
             char indexStr[10];                                  // Array to hold the string version of i
@@ -447,7 +447,7 @@ void processRouteRequest(DataPacket *packet)
     int routeIndex = findRoute(packet->destID);
     // 处理路由请求逻辑
     // 如果发送过路由请求且该请求查询的路径终点与之前查询的一致，则不做任何操作
-
+    // if (nodeID == 11 || nodeID == 8 || nodeID == 5 || nodeID == 6){
     // 查询路由表
     printf("\r\nReceived Route Request from %d\r\n", packet->sourceID);
     if (routeIndex != -1)
@@ -455,20 +455,25 @@ void processRouteRequest(DataPacket *packet)
         // 路由表中有地址
         sendRouteReply(packet->sourceID, routingTable[routeIndex].nextHopID);
     }
-    else
-    {
-        // 路由表中没地址
-        if (sendRoutRequest == 1)
-        {
-            // 如果之前发送过路由查询报文
+    // else
+    // {
+    //     // 路由表中没地址
+    //     if (sendRoutRequest == 1)
+    //     {
+    //         // 如果之前发送过路由查询报文
 
-            return;
-        }
-        printf("\r\nNo route found for destination node %d\r\n", packet->destID);
-        sendRouteRequest(packet->destID);
-        previousRouteReq = HAL_GetTick();
-        sendRoutRequest = 1;
-    }
+    //         return;
+    //     }
+    //     printf("\r\nNo route found for destination node %d\r\n", packet->destID);
+    //     //        sendRouteRequest(packet->destID);
+    //     //        previousRouteReq = HAL_GetTick();
+    //     //        sendRoutRequest = 1;
+    // }
+    // // }
+    // else
+    // {
+    //     return;
+    // } // 非汇聚节点，不回复
 }
 
 /**
@@ -485,9 +490,10 @@ void processRouteReply(DataPacket *packet)
     // 路由表中没该信息或者有不同的路径则添加路由
     // if (packet->sourceID != 1)    // 如果不是汇聚节点的回复
     // if (packet->sourceID == 8)  //2,3,4
-    // if (packet->sourceID == 11) //7,9,10
+    // if (packet->sourceID == 11) //5,9,10
     {
-        if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
+        // if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
+        if (routeIndex == -1)
         {
 
             addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
@@ -832,7 +838,7 @@ int main(void)
             //                                                &receivedPacket.destID,
             //                                                &receivedPacket.protocol,
             //                                                receivedPacket.data);
-            if (receivedPacket.forwardtoID == nodeID || receivedPacket.destID == nodeID || receivedPacket.protocol == ROUTE_REQUEST)
+            if (receivedPacket.forwardtoID == nodeID || receivedPacket.destID == nodeID)
             {
                 printf("\r\nhandleReceivedPackethandleReceivedPacket\r\n");
                 handleReceivedPacket(&receivedPacket);
