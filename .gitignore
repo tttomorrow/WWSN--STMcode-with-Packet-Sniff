@@ -4,3 +4,17 @@
 /cluster member/MDK-ARM/
 /Malicious Nodes/Drivers/
 /Malicious Nodes/MDK-ARM/
+/newCode/Drivers/
+/newCode/MDK-ARM/
+/TCPClient/run_*/
+/TCPClient/**/*.log
+/TCPClient/**/*.db
+/TCPClient/**/__pycache__/
+/__pycache__/
+*.pyc
+
+# Ignore all files directly under repository root; keep root folders and .gitignore.
+/*
+!/*/
+!/.gitignore
+/.idea/
