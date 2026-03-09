@@ -29,7 +29,7 @@
 #define channelID 0x09 // 信道ID
 
 uint8_t nodeID = 11; // 节点ID///////////////////////////////////////////////
-
+uint32_t roundTime = 20000;  // 发送温度数据间隔时间
 // 恶意节点类型
 // 1 packet drop
 // 2 Behavior Evidence Fabrication
@@ -114,7 +114,7 @@ uint8_t getRoutReplay = 0;     // 路由回复标志位
 uint8_t RSSI = 0;
 uint8_t packetID = 1;         // 数据包计数
 uint8_t sniffTableSendID = 0; // 已发送监听表计数
-uint32_t roundTime = 80000;   // 发送温度数据间隔时间
+
 uint32_t currentMillis;       // 获取当前系统时间
 uint8_t onoffCount = 0;       // 计算onoff开启和关闭时间，与读取温度数据时间间隔相关
 uint8_t onoffOn = 0;          // 控制开启onoff攻击 ，1开启，0关闭
@@ -269,6 +269,7 @@ void addRoutingEntry(uint8_t destID, uint8_t nextHopID, uint8_t macHigh, uint8_t
     routingTable[routingTableCount].macHigh = macHigh;
     routingTable[routingTableCount].macLow = macLow;
     routingTableCount++;
+    
 }
 
 // 删除路由条目
@@ -461,20 +462,19 @@ void processRouteRequest(DataPacket *packet)
         // 路由表中有地址
         sendRouteReply(packet->sourceID, routingTable[routeIndex].nextHopID);
     }
-    else
-    {
-        // 路由表中没地址
-        if (sendRoutRequest == 1)
-        {
-            // 如果之前发送过路由查询报文
-
-            return;
-        }
-        printf("\r\nNo route found for destination node %d\r\n", packet->destID);
-        sendRouteRequest(packet->destID);
-        previousRouteReq = HAL_GetTick();
-        sendRoutRequest = 1;
-    }
+    // else
+    // {
+    //     // 路由表中没地址
+    //     if (sendRoutRequest == 1)
+    //     {
+    //         // 如果之前发送过路由查询报文
+    //         return;
+    //     }
+    //     printf("\r\nNo route found for destination node %d\r\n", packet->destID);
+    //     sendRouteRequest(packet->destID);
+    //     previousRouteReq = HAL_GetTick();
+    //     sendRoutRequest = 1;
+    // }
 }
 
 /**
@@ -487,16 +487,18 @@ void processRouteReply(DataPacket *packet)
     printf("\r\nReceived Route Reply from %02X%02X, \r\npacket sourceID:%02X, \r\nforwardID:%02X, \r\ndestID:%02X\r\n", packet->sourceMacH,
            packet->sourceMacL, packet->sourceID, packet->forwardID, packet->destID);
     // 处理路由回复逻辑
-    int routeIndex = findRoute(packet->destID);
-    if (packet->sourceID == 1)
-    {// 路由表中没该信息或者有不同的路径则添加路由
-    if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
-    {
+    int routeIndex = findRoute(targetID);
+    // if (packet->sourceID == 1)
+    { // 路由表中没该信息或者有不同的路径则添加路由
+      // if (routeIndex == -1 || routingTable[routeIndex].nextHopID != packet->sourceID)
+        if (routeIndex == -1)
+        {
 
-        addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
-        getRoutReplay = 1;
-        printf("\r\nAddRoutingEntry\r\n");
-    }
+            addRoutingEntry(targetID, packet->sourceID, packet->sourceMacH, packet->sourceMacL);
+            getRoutReplay = 1;
+            printRoutingTable();
+            printf("\r\nAddRoutingEntry\r\n");
+        }
     }
 }
 
@@ -547,7 +549,7 @@ void processDataPacket(DataPacket *packet)
             if (maliciousType == 2 | maliciousType == 3)
             {
                 if (maliciousType == 3 && (rand() % 100 < 30))
-                { // 生成0-99的随机数，70%概率丢弃数据包
+                { // 生成0-99的随机数，30%概率丢弃数据包
                     // 不处理，丢掉数据包
                     memset(USART2_RX_BUF, 0, USART_REC_LEN);
                     USART2_RX_STA = 0;
