@@ -11,6 +11,9 @@ from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 
+from .runtime_paths import DB_FILE, LOG_FILE as RUNTIME_LOG_FILE, RUN_DIR
+from .webui_page import HTML_PAGE
+
 try:
     import serial
 except Exception:
@@ -23,8 +26,6 @@ TIMEOUT = 1000
 DEBUG_TCP_HEX = os.getenv("WWSN_DEBUG_TCP_HEX", "1") == "1"
 DEBUG_TCP_HEX_MAX = int(os.getenv("WWSN_DEBUG_TCP_HEX_MAX", "256"))
 DEBUG_PACKET_ANALYSIS = os.getenv("WWSN_DEBUG_PACKET_ANALYSIS", "1") == "1"
-RUN_TS = datetime.now().strftime("%Y%m%d_%H%M%S")
-RUNTIME_LOG_FILE = os.getenv("WWSN_RUNTIME_LOG_FILE", f"server_runtime_{RUN_TS}.log")
 
 _ORIGINAL_STDOUT = sys.stdout
 _runtime_log_fp = None
@@ -205,9 +206,6 @@ def set_exclusive_port(sock):
 # Web UI server
 WEB_HOST = os.getenv("WWSN_WEB_HOST", "0.0.0.0")
 WEB_PORT = int(os.getenv("WWSN_WEB_PORT", "8080"))
-
-# Data file
-DB_FILE = os.getenv("WWSN_DB_FILE", "Data20250527.db")
 
 # Serial fallback (optional)
 SERIAL_PORT = os.getenv("WWSN_SERIAL_PORT", "")
@@ -1098,9 +1096,6 @@ def query_sniffer_packets(sniffer_id=None, source_id=None, limit=100):
     return out
 
 
-from .webui_page import HTML_PAGE
-
-
 class ControlHandler(BaseHTTPRequestHandler):
     def _send_json(self, obj, status=200):
         data = json.dumps(obj).encode("utf-8")
@@ -1214,11 +1209,13 @@ def start_web_server():
     server.serve_forever()
 
 
-if __name__ == "__main__":
+def main():
     log_path = enable_runtime_file_logging()
     atexit.register(close_runtime_file_logging)
 
     web_display_host = detect_primary_ipv4() if WEB_HOST == "0.0.0.0" else WEB_HOST
+    console_print(f"[WWSN] Run directory: {RUN_DIR}")
+    console_print(f"[WWSN] Database: {DB_FILE}")
     console_print(f"[WWSN] Runtime log file: {log_path}")
     console_print(f"[WWSN] Web UI: http://{web_display_host}:{WEB_PORT}")
     console_print(f"[WWSN] TCP bind: {TCP_BIND_HOST}:{TCP_PORT}")
@@ -1231,3 +1228,7 @@ if __name__ == "__main__":
     serial_thread = threading.Thread(target=start_serial_reader, daemon=True)
     serial_thread.start()
     start_web_server()
+
+
+if __name__ == "__main__":
+    main()
