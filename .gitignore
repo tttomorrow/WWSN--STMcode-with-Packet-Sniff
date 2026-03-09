@@ -1,11 +1,20 @@
-/cluster header/Drivers/
-/cluster header/MDK-ARM/
-/cluster member/Drivers/
-/cluster member/MDK-ARM/
-/Malicious Nodes/Drivers/
-/Malicious Nodes/MDK-ARM/
-/newCode/Drivers/
-/newCode/MDK-ARM/
+# Keep only Core code tracked in STM projects.
+/cluster head/*
+!/cluster head/Core/
+!/cluster head/Core/**
+
+/cluster member/*
+!/cluster member/Core/
+!/cluster member/Core/**
+
+/Malicious Nodes/*
+!/Malicious Nodes/Core/
+!/Malicious Nodes/Core/**
+
+/newCode/*
+!/newCode/Core/
+!/newCode/Core/**
+
 /TCPClient/run_*/
 /TCPClient/**/*.log
 /TCPClient/**/*.db
